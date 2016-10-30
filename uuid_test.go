@@ -120,7 +120,10 @@ func TestConstants(t *testing.T) {
 func TestRandomUUID(t *testing.T) {
 	m := make(map[string]bool)
 	for x := 1; x < 32; x++ {
-		uuid := NewRandom()
+		uuid, err := NewRandom()
+		if err != nil {
+			t.Fatalf("NewRandom returned an error: %s", err.Error())
+		}
 		s := uuid.String()
 		if m[s] {
 			t.Errorf("NewRandom returned duplicated UUID %s", s)
@@ -138,7 +141,7 @@ func TestRandomUUID(t *testing.T) {
 func TestNew(t *testing.T) {
 	m := make(map[string]bool)
 	for x := 1; x < 32; x++ {
-		s := New()
+		s := newUUID(t)
 		if m[s] {
 			t.Errorf("New returned duplicated UUID %s", s)
 		}
@@ -418,17 +421,25 @@ func (r badRand) Read(buf []byte) (int, error) {
 
 func TestBadRand(t *testing.T) {
 	SetRand(badRand{})
-	uuid1 := New()
-	uuid2 := New()
+	uuid1 := newUUID(t)
+	uuid2 := newUUID(t)
 	if uuid1 != uuid2 {
 		t.Errorf("execpted duplicates, got %q and %q", uuid1, uuid2)
 	}
 	SetRand(nil)
-	uuid1 = New()
-	uuid2 = New()
+	uuid1 = newUUID(t)
+	uuid2 = newUUID(t)
 	if uuid1 == uuid2 {
 		t.Errorf("unexecpted duplicates, got %q", uuid1)
 	}
+}
+
+func newUUID(t *testing.T) string {
+	uuid, err := New()
+	if err != nil {
+		t.Fatalf("New returned an error: %s", err.Error())
+	}
+	return uuid
 }
 
 func TestUUID_Array(t *testing.T) {
