@@ -6,7 +6,7 @@ package uuid
 
 import "errors"
 
-func (u UUID) MarshalJSON() ([]byte, error) {
+func (u UUID) MarshalText() ([]byte, error) {
 	if len(u) != 16 {
 		return []byte(`""`), nil
 	}
@@ -17,7 +17,7 @@ func (u UUID) MarshalJSON() ([]byte, error) {
 	return js[:], nil
 }
 
-func (u *UUID) UnmarshalJSON(data []byte) error {
+func (u *UUID) UnmarshalText(data []byte) error {
 	if string(data) == `""` {
 		return nil
 	}
