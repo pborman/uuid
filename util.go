@@ -9,10 +9,9 @@ import (
 )
 
 // randomBits completely fills slice b with random data.
-func randomBits(b []byte) {
-	if _, err := io.ReadFull(rander, b); err != nil {
-		panic(err.Error()) // rand should never fail
-	}
+func randomBits(b []byte) error {
+	_, err := io.ReadFull(rander, b)
+	return err
 }
 
 // xvalues returns the value of a byte as a hexadecimal digit or 255.

@@ -50,8 +50,12 @@ var rander = rand.Reader // random function
 
 // New returns a new random (version 4) UUID as a string.  It is a convenience
 // function for NewRandom().String().
-func New() string {
-	return NewRandom().String()
+func New() (string, error) {
+	n, err := NewRandom()
+	if err != nil {
+		return "", err
+	}
+	return n.String(), nil
 }
 
 // Parse decodes s into a UUID or returns nil.  Both the UUID form of
@@ -187,8 +191,6 @@ func (v Variant) String() string {
 }
 
 // SetRand sets the random number generator to r, which implements io.Reader.
-// If r.Read returns an error when the package requests random data then
-// a panic will be issued.
 //
 // Calling SetRand with nil sets the random number generator to the default
 // generator.
