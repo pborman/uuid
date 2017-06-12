@@ -421,13 +421,13 @@ func TestBadRand(t *testing.T) {
 	uuid1 := New()
 	uuid2 := New()
 	if uuid1 != uuid2 {
-		t.Errorf("execpted duplicates, got %q and %q", uuid1, uuid2)
+		t.Errorf("expected duplicates, got %q and %q", uuid1, uuid2)
 	}
 	SetRand(nil)
 	uuid1 = New()
 	uuid2 = New()
 	if uuid1 == uuid2 {
-		t.Errorf("unexecpted duplicates, got %q", uuid1)
+		t.Errorf("unexpected duplicates, got %q", uuid1)
 	}
 }
 
