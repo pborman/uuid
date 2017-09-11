@@ -2,20 +2,17 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js
+// +build js
 
 package uuid
 
-import (
-	"net"
-	"sync"
-)
+import "sync"
 
 var (
-	nodeMu     sync.Mutex
-	interfaces []net.Interface // cached list of interfaces
-	ifname     string          // name of interface being used
-	nodeID     []byte          // hardware for version 1 UUIDs
+	nodeMu sync.Mutex
+	//interfaces []net.Interface // cached list of interfaces - not required in JS
+	ifname string // name of interface being used
+	nodeID []byte // hardware for version 1 UUIDs
 )
 
 // NodeInterface returns the name of the interface from which the NodeID was
@@ -40,22 +37,26 @@ func SetNodeInterface(name string) bool {
 }
 
 func setNodeInterface(name string) bool {
-	if interfaces == nil {
-		var err error
-		interfaces, err = net.Interfaces()
-		if err != nil && name != "" {
-			return false
-		}
-	}
 
-	for _, ifs := range interfaces {
-		if len(ifs.HardwareAddr) >= 6 && (name == "" || name == ifs.Name) {
-			if setNodeID(ifs.HardwareAddr) {
-				ifname = ifs.Name
-				return true
-			}
-		}
-	}
+	// THERE ARE NO INTERFACES IN JS:
+	// but this code pulls in the very large net standard library: 672884 bytes of transpiled JS
+
+	// if interfaces == nil {
+	// 	var err error
+	// 	interfaces, err = net.Interfaces()
+	// 	if err != nil && name != "" {
+	// 		return false
+	// 	}
+	// }
+
+	// for _, ifs := range interfaces {
+	// 	if len(ifs.HardwareAddr) >= 6 && (name == "" || name == ifs.Name) {
+	// 		if setNodeID(ifs.HardwareAddr) {
+	// 			ifname = ifs.Name
+	// 			return true
+	// 		}
+	// 	}
+	// }
 
 	// We found no interfaces with a valid hardware address.  If name
 	// does not specify a specific interface generate a random Node ID
