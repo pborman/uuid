@@ -2,20 +2,16 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !js
-
 package uuid
 
 import (
-	"net"
 	"sync"
 )
 
 var (
-	nodeMu     sync.Mutex
-	interfaces []net.Interface // cached list of interfaces
-	ifname     string          // name of interface being used
-	nodeID     []byte          // hardware for version 1 UUIDs
+	nodeMu sync.Mutex
+	ifname string // name of interface being used
+	nodeID []byte // hardware for version 1 UUIDs
 )
 
 // NodeInterface returns the name of the interface from which the NodeID was
@@ -40,20 +36,12 @@ func SetNodeInterface(name string) bool {
 }
 
 func setNodeInterface(name string) bool {
-	if interfaces == nil {
-		var err error
-		interfaces, err = net.Interfaces()
-		if err != nil && name != "" {
-			return false
-		}
-	}
 
-	for _, ifs := range interfaces {
-		if len(ifs.HardwareAddr) >= 6 && (name == "" || name == ifs.Name) {
-			if setNodeID(ifs.HardwareAddr) {
-				ifname = ifs.Name
-				return true
-			}
+	iname, addr := getHardwareInterface(name) // null implementation for js
+	if iname != "" {
+		if setNodeID(addr) {
+			ifname = iname
+			return true
 		}
 	}
 
