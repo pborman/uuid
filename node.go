@@ -38,11 +38,9 @@ func SetNodeInterface(name string) bool {
 func setNodeInterface(name string) bool {
 
 	iname, addr := getHardwareInterface(name) // null implementation for js
-	if iname != "" {
-		if setNodeID(addr) {
-			ifname = iname
-			return true
-		}
+	if iname != "" && setNodeID(addr) {
+		ifname = iname
+		return true
 	}
 
 	// We found no interfaces with a valid hardware address.  If name

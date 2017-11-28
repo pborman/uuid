@@ -1,4 +1,4 @@
-// Copyright 2011 Google Inc.  All rights reserved.
+// Copyright 2017 Google Inc.  All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -20,7 +20,7 @@ func getHardwareInterface(name string) (string, []byte) {
 	if interfaces == nil {
 		var err error
 		interfaces, err = net.Interfaces()
-		if err != nil && name != "" {
+		if err != nil {
 			return "", nil
 		}
 	}

@@ -359,7 +359,7 @@ func TestNodeID(t *testing.T) {
 	s := NodeInterface()
 	if runtime.GOARCH != "js" {
 		if s == "" || s == "user" {
-			t.Errorf("NodeInterface %q after SetInteface", s)
+			t.Errorf("NodeInterface %q after SetInterface", s)
 		}
 	}
 	node1 := NodeID()
