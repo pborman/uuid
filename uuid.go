@@ -61,7 +61,7 @@ func Parse(s string) UUID {
 	gu, err := guuid.Parse(s)
 	if err == nil {
 		return gu[:]
-	} 
+	}
 	return nil
 }
 
