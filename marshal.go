@@ -63,10 +63,11 @@ func (u Array) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (u *Array) UnmarshalText(data []byte) error {
 	id, err := guuid.ParseBytes(data)
-	if err == nil {
-		*u = Array(id)
+	if err != nil {
+		return err
 	}
-	return err
+	*u = Array(id)
+	return nil
 }
 
 // MarshalBinary implements encoding.BinaryMarshaler.
