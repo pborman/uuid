@@ -12,7 +12,7 @@ import (
 
 // A Time represents a time as the number of 100's of nanoseconds since 15 Oct
 // 1582.
-type Time = guuid.Time
+type Time  guuid.Time
 
 // GetTime returns the current Time (100s of nanoseconds since 15 Oct 1582) and
 // clock sequence as well as adjusting the clock sequence as needed.  An error
