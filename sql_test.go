@@ -10,10 +10,12 @@ import (
 )
 
 func TestScan(t *testing.T) {
-	var stringTest string = "f47ac10b-58cc-0372-8567-0e02b2c3d479"
-	var byteTest []byte = Parse(stringTest)
-	var badTypeTest int = 6
-	var invalidTest string = "f47ac10b-58cc-0372-8567-0e02b2c3d4"
+	var (
+		stringTest  = "f47ac10b-58cc-0372-8567-0e02b2c3d479"
+		byteTest    = []byte(Parse(stringTest))
+		badTypeTest = 6
+		invalidTest = "f47ac10b-58cc-0372-8567-0e02b2c3d4"
+	)
 
 	// sunny day tests
 
