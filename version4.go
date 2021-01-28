@@ -19,8 +19,6 @@ import guuid "github.com/google/uuid"
 //  equivalent to the odds of creating a few tens of trillions of UUIDs in a
 //  year and having one duplicate.
 func NewRandom() UUID {
-	if gu, err := guuid.NewRandom(); err == nil {
-		return UUID(gu[:])
-	}
-	return nil
+	gu := guuid.Must(guuid.NewRandom())
+	return UUID(gu[:])
 }
